@@ -1,0 +1,19 @@
+@import "tailwindcss";
+
+@theme {
+  --color-background: #141932;
+  --color-background-mute: #2D324B;
+
+  --color-table-border: #40425E;
+
+  
+}
+
+html {
+  background-color: var(--color-background);
+  padding-block: 20px;
+}
+
+button, a {
+  cursor: pointer;
+}
