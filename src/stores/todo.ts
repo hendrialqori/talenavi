@@ -14,14 +14,14 @@ export const useTodoStore = defineStore('todo', () => {
     function addNewTodo() {
         const newTodo: Todo = {
             id: Date.now() + Math.random(),
-            date: undefined,
+            date: Date.now().toString(),
             title: 'New Task',
             developer: [],
             status: undefined,
             priority: undefined,
             type: undefined,
-            "Actual SP": undefined,
-            "Estimated SP": undefined
+            "Actual SP": 0,
+            "Estimated SP": 0
         }
 
         todos.value = [newTodo, ...todos.value]
@@ -32,7 +32,7 @@ export const useTodoStore = defineStore('todo', () => {
             const req = await fetch('https://mocki.io/v1/9d9895f9-70eb-49d2-99f7-cb3dacca8a94')
             const todosRes = (await req.json()).data as Todo[]
 
-            todos.value = todosRes.map((todo, i) => ({ ...todo, id: Date.now() + i + 1, developer: [] }))
+            todos.value = todosRes.map((todo, i) => ({ ...todo, id: Date.now() + i + 1, date: Date.now().toString(), developer: [] }))
         } catch (error) {
             throw error
         }
@@ -73,14 +73,14 @@ export const useTodoStore = defineStore('todo', () => {
         }
     }
 
-    function updateEstimate(id: number, newEstimated: string) {
+    function updateEstimate(id: number, newEstimated: number) {
         const todo = todos.value.find(t => t.id === id)
         if (todo) {
             todo['Estimated SP'] = newEstimated
         }
     }
 
-    function updateActual(id: number, newActual: string) {
+    function updateActual(id: number, newActual: number) {
         const todo = todos.value.find(t => t.id === id)
         if (todo) {
             todo['Actual SP'] = newActual
@@ -123,7 +123,7 @@ export const useTodoStore = defineStore('todo', () => {
             const valA = a[sortField.value as Field]?.toString()
             const valB = b[sortField.value as Field]?.toString()
 
-            if (typeof valA === 'string' && typeof valB === 'string' && !!valA && !!valB) {
+            if (typeof valA === 'string' && typeof valB === 'string') {
                 return sortOrder.value === 'asc'
                     ? valA.localeCompare(valB)
                     : valB.localeCompare(valA)
@@ -172,6 +172,7 @@ export const useTodoStore = defineStore('todo', () => {
     }
 
     return {
+        todos,
         todoList,
         searchTask,
         addNewTodo,

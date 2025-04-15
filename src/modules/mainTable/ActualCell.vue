@@ -4,11 +4,11 @@ import { Menu, MenuButton, MenuItems, MenuItem } from '@headlessui/vue'
 
 const actuals = [1, 1.5, 2, 4, 8]
 
-const props = defineProps<{ id: number; actual: string | undefined }>()
+const props = defineProps<{ id: number; actual: number | undefined }>()
 
 const todoStore = useTodoStore()
 
-function updateActual(newEstimate: string) {
+function updateActual(newEstimate: number) {
     todoStore.updateActual(
         props.id,
         newEstimate
@@ -37,7 +37,7 @@ function updateActual(newEstimate: string) {
                         <button :class="[
                             active ? 'bg-blue-500 text-white' : 'text-gray-900',
                             'group flex w-full items-center rounded-md px-2 py-2 text-sm',
-                        ]" @click="updateActual(String(actual))">
+                        ]" @click="updateActual(actual)">
                             {{ actual }}
                         </button>
                         </MenuItem>

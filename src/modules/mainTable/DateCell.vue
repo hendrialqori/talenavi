@@ -4,7 +4,6 @@ import VueDatePicker from "@vuepic/vue-datepicker";
 import "@vuepic/vue-datepicker/dist/main.css";
 import { useTodoStore } from '@/stores/todo';
 import { watch } from 'vue';
-import { onMounted } from 'vue';
 
 //@ts-ignore
 import dayjs from 'dayjs'
@@ -13,16 +12,14 @@ const props = defineProps<{ id: number; date: string | undefined }>()
 
 const todoStore = useTodoStore()
 
-const date = ref(new Date());
+const date = ref(new Date(Number(props.date!)));
 
 const format = (date: Date) => dayjs(date).format('DD MMM, YYYY')
 
-onMounted(() => date.value = new Date(props.date!))
-
-watch((date), (currentDate) => {
+watch(date, curr => {
     todoStore.updateDate(
         props.id,
-        new Date(currentDate).getTime().toString()
+        new Date(curr).getTime().toString()
     )
 })
 

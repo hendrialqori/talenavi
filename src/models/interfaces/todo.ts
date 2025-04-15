@@ -25,6 +25,6 @@ export type Todo = {
     priority: Priority | undefined;
     status: Status | undefined;
     type: Type | undefined;
-    "Estimated SP": string | undefined;
-    "Actual SP": string | undefined;
+    "Estimated SP": number | undefined;
+    "Actual SP": number | undefined;
 }

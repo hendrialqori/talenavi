@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { onMounted } from 'vue';
 import { STATUS_COLOR } from '@/models/constant/status';
 import { PRIORITY_COLOR } from '@/models/constant/priority';
 import { TYPE_COLOR } from '@/models/constant/type';
@@ -29,10 +28,6 @@ import ClearSortTable from '@/components/ClearSortTable.vue';
 
 const todoStore = useTodoStore()
 
-onMounted(async () => {
-    await todoStore.fetchTodoFromAPI()
-})
-
 </script>
 
 <template>
@@ -44,92 +39,93 @@ onMounted(async () => {
             <ClearSortTable />
         </div>
 
-        <!-- <div id="table-container" class="w-full overflow-x-scroll rounded-md"> -->
-        <table class="w-full border-collapse table-auto text-white bg-background-mute">
-            <thead>
-                <tr>
-                    <TaskHeaderCell />
-                    <th class="border border-table-border py-3 text-[#A0A5B0] text-sm font-medium w-[150px]">
-                        Developer
-                    </th>
-                    <StatusHeaderCell />
-                    <PriorityHeaderCell />
-                    <TypeHeaderCell />
-                    <DateHeaderCell />
-                    <EstimateHeaderCell />
-                    <ActualHeaderCell />
-                </tr>
-            </thead>
-            <tbody>
-                <tr v-for="todo of todoStore.todoList" :key="todo.id">
-                    <TaskCell :id="todo.id" :task="todo.title" />
-                    <td class="border border-table-border py-3 text-white text-sm font-medium w-[80px]">
-                        <MessageCirclePlus class="size-5 mx-auto" />
-                    </td>
-                    <DeveloperCell :id="todo.id" :developer="todo.developer" />
-                    <StatusCell :id="todo.id" :status="todo.status" />
-                    <PriorityCell :id="todo.id" :priority="todo.priority" />
-                    <TypeCell :id="todo.id" :type="todo.type" />
-                    <DateCell :id="todo.id" :date="todo.date" />
-                    <EstimateCell :id="todo.id" :estimate="todo['Estimated SP']" />
-                    <ActualCell :id="todo.id" :actual="todo['Actual SP']" />
-                </tr>
-                <tr>
-                    <td class="border border-table-border py-3 text-white text-sm font-medium" colspan="8">
-                        <button @click="todoStore.addNewTodo" class="inline-flex items-center gap-1 pl-5">
-                            <Plus class="size-4" />
-                            Add new task
-                        </button>
-                    </td>
-                </tr>
-            </tbody>
-            <tfoot>
-                <tr>
-                    <td class="border border-background py-3 text-background text-sm font-medium w-[500px] bg-background"
-                        colspan="2">
-                        Task
-                    </td>
-                    <th class="border border-table-border py-3 text-background-mute text-sm font-medium w-[150px]">
-                        Developer
-                    </th>
-                    <th class="border border-table-border py-3 text-[#A0A5B0] text-sm font-medium w-[200px]">
-                        <div class="flex px-3">
-                            <div class="grow h-5" v-for="[_, color] of Object.entries(STATUS_COLOR)" :key="color"
-                                :style="{ backgroundColor: color }"></div>
-                        </div>
-                    </th>
-                    <th class="border border-table-border py-3 text-[#A0A5B0] text-sm font-medium w-[200px]">
-                        <div class="flex px-3">
-                            <div class="grow h-5" v-for="[_, color] of Object.entries(PRIORITY_COLOR)" :key="color"
-                                :style="{ backgroundColor: color }"></div>
-                        </div>
-                    </th>
-                    <th class="border border-table-border py-3 text-[#A0A5B0] text-sm font-medium w-[200px]">
-                        <div class="flex px-3">
-                            <div class="grow h-5" v-for="[_, color] of Object.entries(TYPE_COLOR)" :key="color"
-                                :style="{ backgroundColor: color }"></div>
-                        </div>
-                    </th>
-                    <th class="border border-table-border p-3 text-background-mute text-sm font-medium w-[200px]">
-                        <div class="w-full rounded-full px-2 py-1 text-white bg-gray-400">
-                            -
-                        </div>
-                    </th>
-                    <th class="border border-table-border text-[#A0A5B0] text-sm font-medium w-[200px]">
-                        <div class="flex flex-col justify-center">
-                            <h2>{{ todoStore.sumOfEstimatedSP }} SP</h2>
-                            <p class="text-xs font-light">sum</p>
-                        </div>
-                    </th>
-                    <th class="border border-table-border text-[#A0A5B0] text-sm font-medium w-[200px]">
-                        <div class="flex flex-col justify-center">
-                            <h2>{{ todoStore.sumOfActualSP }} SP</h2>
-                            <p class="text-xs font-light">sum</p>
-                        </div>
-                    </th>
-                </tr>
-            </tfoot>
-        </table>
+        <div id="table-container" class="w-full overflow-auto rounded-md pt-2 pb-40">
+            <table class="min-w-[1800px] w-full border-collapse table-auto text-white bg-background-mute">
+                <thead>
+                    <tr>
+                        <TaskHeaderCell />
+                        <th class="border border-table-border py-3 text-[#A0A5B0] text-sm font-medium w-[150px]">
+                            Developer
+                        </th>
+                        <StatusHeaderCell />
+                        <PriorityHeaderCell />
+                        <TypeHeaderCell />
+                        <DateHeaderCell />
+                        <EstimateHeaderCell />
+                        <ActualHeaderCell />
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr v-for="todo of todoStore.todoList" :key="todo.id">
+                        <TaskCell :id="todo.id" :task="todo.title" />
+                        <td class="border border-table-border py-3 text-white text-sm font-medium w-[80px]">
+                            <MessageCirclePlus class="size-5 mx-auto" />
+                        </td>
+                        <DeveloperCell :id="todo.id" :developer="todo.developer" />
+                        <StatusCell :id="todo.id" :status="todo.status" />
+                        <PriorityCell :id="todo.id" :priority="todo.priority" />
+                        <TypeCell :id="todo.id" :type="todo.type" />
+                        <DateCell :id="todo.id" :date="todo.date" />
+                        <EstimateCell :id="todo.id" :estimate="todo['Estimated SP']" />
+                        <ActualCell :id="todo.id" :actual="todo['Actual SP']" />
+                    </tr>
+                    <tr>
+                        <td class="border border-table-border py-3 text-white text-sm font-medium" colspan="8">
+                            <button @click="todoStore.addNewTodo" class="inline-flex items-center gap-1 pl-5">
+                                <Plus class="size-4" />
+                                Add new task
+                            </button>
+                        </td>
+                    </tr>
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td class="border border-background py-3 text-background text-sm font-medium w-[500px] bg-background"
+                            colspan="2">
+                            Task
+                        </td>
+                        <th class="border border-table-border py-3 text-background-mute text-sm font-medium w-[150px]">
+                            Developer
+                        </th>
+                        <th class="border border-table-border py-3 text-[#A0A5B0] text-sm font-medium w-[200px]">
+                            <div class="flex px-3">
+                                <div class="grow h-5" v-for="[_, color] of Object.entries(STATUS_COLOR)" :key="color"
+                                    :style="{ backgroundColor: color }"></div>
+                            </div>
+                        </th>
+                        <th class="border border-table-border py-3 text-[#A0A5B0] text-sm font-medium w-[200px]">
+                            <div class="flex px-3">
+                                <div class="grow h-5" v-for="[_, color] of Object.entries(PRIORITY_COLOR)" :key="color"
+                                    :style="{ backgroundColor: color }"></div>
+                            </div>
+                        </th>
+                        <th class="border border-table-border py-3 text-[#A0A5B0] text-sm font-medium w-[200px]">
+                            <div class="flex px-3">
+                                <div class="grow h-5" v-for="[_, color] of Object.entries(TYPE_COLOR)" :key="color"
+                                    :style="{ backgroundColor: color }"></div>
+                            </div>
+                        </th>
+                        <th class="border border-table-border p-3 text-background-mute text-sm font-medium w-[200px]">
+                            <div class="w-full rounded-full px-2 py-1 text-white bg-gray-400">
+                                -
+                            </div>
+                        </th>
+                        <th class="border border-table-border text-[#A0A5B0] text-sm font-medium w-[200px]">
+                            <div class="flex flex-col justify-center">
+                                <h2>{{ todoStore.sumOfEstimatedSP }} SP</h2>
+                                <p class="text-xs font-light">sum</p>
+                            </div>
+                        </th>
+                        <th class="border border-table-border text-[#A0A5B0] text-sm font-medium w-[200px]">
+                            <div class="flex flex-col justify-center">
+                                <h2>{{ todoStore.sumOfActualSP }} SP</h2>
+                                <p class="text-xs font-light">sum</p>
+                            </div>
+                        </th>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
     </section>
 </template>
 

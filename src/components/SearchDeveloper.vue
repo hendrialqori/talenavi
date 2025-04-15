@@ -39,7 +39,7 @@ function clearSearch() {
                     ]" @click="findDeveloper(String(developer.id))">
                         <img :src="developer.avatar" class="size-6 rounded-full object-cover" />
                         <div class="text-left">
-                            <p class="text-[0.75rem]">{{ developer.name }}</p>
+                            <p class="text-sm">{{ developer.name }}</p>
                             <p class="text-[0.65rem]">{{ developer.role }}</p>
                         </div>
                     </button>
@@ -49,7 +49,7 @@ function clearSearch() {
                         active ? 'bg-blue-500 text-white' : 'text-gray-900',
                         'group flex w-full items-center rounded-md px-2 py-2 text-sm',
                     ]" @click="clearSearch">
-                        <XCircle :active="active" class="mr-2 size-5" aria-hidden="true" />
+                        <XCircle :active="active" class="mr-2 size-4" aria-hidden="true" />
                         Clear
                     </button>
                     </MenuItem>
