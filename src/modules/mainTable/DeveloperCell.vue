@@ -80,7 +80,7 @@ function matchDeveloper(id: number) {
                                 <figure v-for="developer of  DEVELOPERS " :key="developer.id"
                                     :class="{ 'bg-gray-200': matchDeveloper(developer.id) }"
                                     @click="addDeveloper(developer)"
-                                    class="flex items-center gap-3 rounded-lg active:bg-gray-200 px-1 py-2 cursor-pointer">
+                                    class="flex items-center gap-3 rounded-lg hover:bg-gray-100 px-1 py-2 cursor-pointer">
                                     <img :src="developer.avatar" class="size-10 rounded-full object-cover" />
                                     <figcaption class="w-full flex justify-between items-center pr-2">
                                         <div>

@@ -15,6 +15,8 @@ export type Developer = {
     role: string;
 }
 
+export type Order = 'asc' | 'desc'
+
 export type Todo = {
     id: number;
     date: string | undefined;
@@ -23,6 +25,6 @@ export type Todo = {
     priority: Priority | undefined;
     status: Status | undefined;
     type: Type | undefined;
-    estimated: number | undefined;
-    actual: number | undefined;
+    "Estimated SP": string | undefined;
+    "Actual SP": string | undefined;
 }

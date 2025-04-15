@@ -16,13 +16,13 @@ function handleActive(key: typeof activeTab.value) {
         <div class="w-full px-10">
             <header class="border-b gap-4 border-gray-700 flex">
                 <button @click="handleActive('main-table')"
-                    class="flex items-start text-white text-sm gap-1 pb-3 px-4"
+                    class="flex items-start text-white text-sm gap-1 pb-3 px-4 font-medium"
                     :class="{ 'border-b border-blue-600': activeTab === 'main-table' }"
                     >
                     <House class="size-5" />
                     <span>Main Table</span>
                 </button>
-                <button @click="handleActive('kanban')" class="inline-flex items-start text-white text-sm gap-1 pb-3 px-4"
+                <button @click="handleActive('kanban')" class="inline-flex items-start text-white text-sm gap-1 pb-3 px-4 font-medium"
                     :class="{ 'border-b border-blue-600': activeTab === 'kanban' }">
                     Kanban
                 </button>

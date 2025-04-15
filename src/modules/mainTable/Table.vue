@@ -24,6 +24,8 @@ import TypeHeaderCell from './TypeHeaderCell.vue'
 import DateHeaderCell from './DateHeaderCell.vue';
 import EstimateHeaderCell from './EstimateHeaderCell.vue';
 import ActualHeaderCell from './ActualHeaderCell.vue'
+import SearchDeveloper from '@/components/SearchDeveloper.vue';
+import ClearSortTable from '@/components/ClearSortTable.vue';
 
 const todoStore = useTodoStore()
 
@@ -38,6 +40,8 @@ onMounted(async () => {
         <div class="inline-flex items-center gap-5">
             <NewTaskButton />
             <SearchTask />
+            <SearchDeveloper />
+            <ClearSortTable />
         </div>
 
         <!-- <div id="table-container" class="w-full overflow-x-scroll rounded-md"> -->
@@ -67,8 +71,8 @@ onMounted(async () => {
                     <PriorityCell :id="todo.id" :priority="todo.priority" />
                     <TypeCell :id="todo.id" :type="todo.type" />
                     <DateCell :id="todo.id" :date="todo.date" />
-                    <EstimateCell :id="todo.id" :estimate="todo.estimated" />
-                    <ActualCell :id="todo.id" :actual="todo.actual" />
+                    <EstimateCell :id="todo.id" :estimate="todo['Estimated SP']" />
+                    <ActualCell :id="todo.id" :actual="todo['Actual SP']" />
                 </tr>
                 <tr>
                     <td class="border border-table-border py-3 text-white text-sm font-medium" colspan="8">

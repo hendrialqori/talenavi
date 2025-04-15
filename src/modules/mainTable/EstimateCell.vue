@@ -2,13 +2,13 @@
 import { useTodoStore } from '@/stores/todo';
 import { Menu, MenuButton, MenuItems, MenuItem } from '@headlessui/vue'
 
-const estimates = [0, 1, 1.5, 2, 4, 8]
+const estimates = [1, 1.5, 2, 4, 8]
 
-const props = defineProps<{ id: number; estimate: number | undefined }>()
+const props = defineProps<{ id: number; estimate: string | undefined }>()
 
 const todoStore = useTodoStore()
 
-function updateEstimate(newEstimate: number) {
+function updateEstimate(newEstimate: string) {
     todoStore.updateEstimate(
         props.id,
         newEstimate
@@ -37,7 +37,7 @@ function updateEstimate(newEstimate: number) {
                         <button :class="[
                             active ? 'bg-blue-500 text-white' : 'text-gray-900',
                             'group flex w-full items-center rounded-md px-2 py-2 text-sm',
-                        ]" @click="updateEstimate(estimate)">
+                        ]" @click="updateEstimate(String(estimate))">
                             {{ estimate }}
                         </button>
                         </MenuItem>

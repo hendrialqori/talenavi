@@ -1,13 +1,15 @@
 import { computed, ref } from 'vue'
 import { defineStore } from 'pinia'
-import type { Todo, Status, Priority, Type, Developer } from '@/models/interfaces/todo'
+import type { Todo, Status, Priority, Type, Developer, Order } from '@/models/interfaces/todo'
 
+type Field = keyof Todo
 
 export const useTodoStore = defineStore('todo', () => {
-
     const todos = ref<Todo[]>([])
-
     const searchTask = ref('')
+    const searchDeveloperId = ref('')
+    const sortField = ref<Field | ''>('')
+    const sortOrder = ref<Order | ''>('')
 
     function addNewTodo() {
         const newTodo: Todo = {
@@ -18,8 +20,8 @@ export const useTodoStore = defineStore('todo', () => {
             status: undefined,
             priority: undefined,
             type: undefined,
-            actual: undefined,
-            estimated: undefined
+            "Actual SP": undefined,
+            "Estimated SP": undefined
         }
 
         todos.value = [newTodo, ...todos.value]
@@ -71,17 +73,17 @@ export const useTodoStore = defineStore('todo', () => {
         }
     }
 
-    function updateEstimate(id: number, newEstimated: number) {
+    function updateEstimate(id: number, newEstimated: string) {
         const todo = todos.value.find(t => t.id === id)
         if (todo) {
-            todo.estimated = newEstimated
+            todo['Estimated SP'] = newEstimated
         }
     }
 
-    function updateActual(id: number, newActual: number) {
+    function updateActual(id: number, newActual: string) {
         const todo = todos.value.find(t => t.id === id)
         if (todo) {
-            todo.actual = newActual
+            todo['Actual SP'] = newActual
         }
     }
 
@@ -100,24 +102,73 @@ export const useTodoStore = defineStore('todo', () => {
     }
 
     const todoList = computed(() => {
-        const filterTodos = todos.value.filter((todo) => todo.title.toLowerCase().includes(searchTask.value.toLowerCase()))
 
-        return filterTodos
+        // sort by task & developer
+        const filterTodos =
+            todos.value.filter((todo) => {
+
+                const task = searchTask.value.toLowerCase()
+                const devId = searchDeveloperId.value
+
+                const matchesTitle = todo.title.toLowerCase().includes(task)
+                const matchesDev = devId === '' || todo.developer.some(dev =>
+                    dev.id.toString().includes(devId)
+                )
+
+                return matchesTitle && matchesDev
+            })
+
+        // sort todos
+        const sortTodos = filterTodos.sort((a, b) => {
+            const valA = a[sortField.value as Field]?.toString()
+            const valB = b[sortField.value as Field]?.toString()
+
+            if (typeof valA === 'string' && typeof valB === 'string' && !!valA && !!valB) {
+                return sortOrder.value === 'asc'
+                    ? valA.localeCompare(valB)
+                    : valB.localeCompare(valA)
+            }
+
+            return 0
+        })
+
+        return sortTodos
     })
 
     const sumOfActualSP = computed(() => {
-        const total = todos.value.reduce((prev, curr) => prev + (curr.actual ?? 0), 0)
+        const total = todos.value.reduce((prev, curr) => prev + (Number(curr['Actual SP']) ?? 0), 0)
         return total
     })
 
     const sumOfEstimatedSP = computed(() => {
-        const total = todos.value.reduce((prev, curr) => prev + (curr.estimated ?? 0), 0)
+        const total = todos.value.reduce((prev, curr) => prev + (Number(curr['Estimated SP']) ?? 0), 0)
         return total
     })
 
     function developersById(id: number) {
         const todo = todos.value.find(t => t.id === id)
         return todo?.developer
+    }
+
+    const isSort = computed(() => sortField.value && sortOrder.value)
+
+    function sortTodo(field: Field, order: Order) {
+        sortField.value = field
+        sortOrder.value = order
+    }
+
+    function clearSortTodo() {
+        sortField.value = ''
+        sortOrder.value = ''
+    }
+
+
+    function searchDeveloper(id: string) {
+        searchDeveloperId.value = id
+    }
+
+    function clearSearchDeveloper() {
+        searchDeveloperId.value = ''
     }
 
     return {
@@ -135,7 +186,12 @@ export const useTodoStore = defineStore('todo', () => {
         sumOfEstimatedSP,
         fetchTodoFromAPI,
         addDeveloper,
-        developersById
+        developersById,
+        isSort,
+        sortTodo,
+        clearSortTodo,
+        searchDeveloper,
+        clearSearchDeveloper
     }
 
 })
