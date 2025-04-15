@@ -8,11 +8,18 @@ export type Status = typeof STATUS[number]
 
 export type Type = typeof TYPES[number]
 
+export type Developer = {
+    id: number;
+    avatar: string;
+    name: string;
+    role: string;
+}
+
 export type Todo = {
     id: number;
     date: string | undefined;
     title: string;
-    developer: string[];
+    developer: Developer[];
     priority: Priority | undefined;
     status: Status | undefined;
     type: Type | undefined;

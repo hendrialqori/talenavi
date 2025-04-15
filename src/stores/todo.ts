@@ -1,6 +1,6 @@
 import { computed, ref } from 'vue'
 import { defineStore } from 'pinia'
-import type { Todo, Status, Priority, Type } from '@/models/interfaces/todo'
+import type { Todo, Status, Priority, Type, Developer } from '@/models/interfaces/todo'
 
 
 export const useTodoStore = defineStore('todo', () => {
@@ -31,8 +31,6 @@ export const useTodoStore = defineStore('todo', () => {
             const todosRes = (await req.json()).data as Todo[]
 
             todos.value = todosRes.map((todo, i) => ({ ...todo, id: Date.now() + i + 1, developer: [] }))
-
-
         } catch (error) {
             throw error
         }
@@ -66,6 +64,13 @@ export const useTodoStore = defineStore('todo', () => {
         }
     }
 
+    function updateDate(id: number, newDate: string) {
+        const todo = todos.value.find(t => t.id === id)
+        if (todo) {
+            todo.date = newDate
+        }
+    }
+
     function updateEstimate(id: number, newEstimated: number) {
         const todo = todos.value.find(t => t.id === id)
         if (todo) {
@@ -80,36 +85,57 @@ export const useTodoStore = defineStore('todo', () => {
         }
     }
 
+    function addDeveloper(id: number, assignDeveloper: Developer) {
+        const todo = todos.value.find(t => t.id === id)
+        if (todo) {
+            const [findDuplicateDeveloper] = todo.developer.filter((dev) => dev.id === assignDeveloper.id)
+            const removeduplicateDeveloper = todo.developer.filter((dev) => dev.id !== assignDeveloper.id)
+
+            if (findDuplicateDeveloper) {
+                todo.developer = removeduplicateDeveloper
+            } else {
+                todo.developer = [...todo.developer, assignDeveloper]
+            }
+        }
+    }
+
+    const todoList = computed(() => {
+        const filterTodos = todos.value.filter((todo) => todo.title.toLowerCase().includes(searchTask.value.toLowerCase()))
+
+        return filterTodos
+    })
 
     const sumOfActualSP = computed(() => {
         const total = todos.value.reduce((prev, curr) => prev + (curr.actual ?? 0), 0)
         return total
     })
 
-
     const sumOfEstimatedSP = computed(() => {
         const total = todos.value.reduce((prev, curr) => prev + (curr.estimated ?? 0), 0)
         return total
     })
 
-    function searchByTask() {
-        return todos.value.filter((todo) => todo.title.toLowerCase().includes(searchTask.value.toLowerCase()))
+    function developersById(id: number) {
+        const todo = todos.value.find(t => t.id === id)
+        return todo?.developer
     }
 
     return {
-        todos,
+        todoList,
         searchTask,
         addNewTodo,
         updateTask,
         updateStatus,
         updatePriority,
         updateType,
+        updateDate,
         updateEstimate,
         updateActual,
         sumOfActualSP,
         sumOfEstimatedSP,
-        searchByTask,
-        fetchTodoFromAPI
+        fetchTodoFromAPI,
+        addDeveloper,
+        developersById
     }
 
 })
