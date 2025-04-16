@@ -1,33 +1,29 @@
-# talenavi-navigator
+# Talenavi Navigator Front-end challenge
 
-This template should help get you started developing with Vue 3 in Vite.
+## Cerita
+[Productivity app](https://google.com) berfungsi untuk memvisualisasikan pekerjaan, membatasi pekerjaan yang sedang berlangsung, dan mempermudah alur kerja
 
-## Recommended IDE Setup
-
-[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur).
-
-## Type Support for `.vue` Imports in TS
-
-TypeScript cannot handle type information for `.vue` imports by default, so we replace the `tsc` CLI with `vue-tsc` for type checking. In editors, we need [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) to make the TypeScript language service aware of `.vue` types.
-
-## Customize configuration
-
-See [Vite Configuration Reference](https://vite.dev/config/).
-
-## Project Setup
-
-```sh
-pnpm install
+## Bagaimana cara install aplikasi ini di lokal komputer ?
+1. Buka link github repositori ini [https://github.com/hendrialqori/talenavi-navigator](https://github.com/hendrialqori/talenavi-navigator)
+2. Lakukan cloning seperti langkah dibawah ini :
+```.bash
+git clone https://github.com/hendrialqori/talenavi-navigator.git
+```
+atau menggunakan ssh :
+```.bash
+ git clone git@github.com:hendrialqori/talenavi-navigator.git
 ```
 
-### Compile and Hot-Reload for Development
-
-```sh
-pnpm dev
+3. Jika proses cloning berhasil masuk ke directory dot.id-challange, dengan cara :
+```.bash
+cd talenavi-navigator
+```
+4. Step selanjut nya install semua dependency yang terdapat pada file package.json
+```.bash
+npm install
+```
+5. Jika proses sudah selesai, jalakan aplikasi dengan perintah :
+```.bash
+npm run dev
 ```
 
-### Type-Check, Compile and Minify for Production
-
-```sh
-pnpm build
-```
