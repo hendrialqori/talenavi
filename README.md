@@ -1,10 +1,10 @@
-# Talenavi Navigator Front-end challenge
+# Talenavi Front-end challenge
 
 ## Cerita
 [Productivity app](https://talenavi-navigator.vercel.app) berfungsi untuk memvisualisasikan pekerjaan, membatasi pekerjaan yang sedang berlangsung, dan mempermudah alur kerja
 
 ## Bagaimana cara install aplikasi ini di lokal komputer ?
-1. Buka link github repositori ini [https://github.com/hendrialqori/talenavi-navigator](https://github.com/hendrialqori/talenavi-navigator)
+1. Buka link github repositori ini [https://github.com/hendrialqori/talenavi-navigator](https://github.com/hendrialqori/talenavi)
 2. Lakukan cloning seperti langkah dibawah ini :
 ```.bash
 git clone https://github.com/hendrialqori/talenavi-navigator.git
